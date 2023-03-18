@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>novirus.download</title>
+    <style>
+        @keyframes bounce {
+            from {
+                transform: rotate(-5deg);
+            }
+            to {
+                transform: rotate(5deg);
+            }
+        }
+        @keyframes explore {
+            from {
+                left: 10vw;
+                top: 10vh;
+                transform: rotate(0deg);
+            }
+            25% {
+                left: 10vw;
+                top: 70vh;
+            }
+            50% {
+                left: 70vw;
+                top: 70vh;
+                transform: rotate(180deg);
+            }
+            75% {
+                left: 70vw;
+                top: 10vh;
+            }
+            to {
+                left: 10vw;
+                top: 10vh;
+                transform: rotate(360deg);
+            }
+        }
+        body {
+            background-image: url('free2.png');
+            overflow: hidden;
+        }
+        img.z {
+            position: absolute; 
+        }
+        img.download {
+            width: 300px;
+            aspect-ratio: 2.7;
+        }
+        img#wow {
+            transition: top 1s, left 1s;
+            z-index: 9999999999;
+        }
+        a {
+            position: absolute;
+            animation-name: bounce;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-direction: alternate, alternate-reverse;
+        }
+        h1 {
+            color: #fa00ee;
+            font-weight: bold;
+            top: 500px;
+            left: 500px;
+            background: #00ff00;
+            width: 300px;
+            animation: 6s explore linear infinite;
+            z-index: 99999999999 !important;
+        }
+        .top {
+            z-index: 999999999;
+            position: relative;
+        }
+        div.top.z {
+            position: absolute !important;
+            height: 70%;
+            width: 200px;
+            left: 20px;
+            top: 20px;
+            color: #ff00e8;
+            background-color: #450eff;
+            font-weight: bold;
+            font-family: monospace;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            font-size: 40pt;
+        }
+    </style>
+</head>
+<body>
+    <h1 class=top></h1>
+<h1 class=top class=explore>The NUMBER 1!  place for download files!!!!!!!</h1>
+<img class='top z' src=rtx.png height=140px style="bottom: 0px; left: 0px;">
+<img class='top z' src=kash.png height=133px style="left: 30vw; bottom: 51px;">
+<img class='top z' src=speed.png height=100px style="right: 50vw; top: 0px">
+<img class='top z' src=text1.png height=200px style="right: 50vw; top: 130px; backdrop-filter: blur(10px);">
+<img class='top z' src=world_record.jpg height=150px style="right: calc(50vw - 110px); top: 50px;">
+<img class='top z' src=click-here.png height=260px style="right: 60px; bottom: 60px; backdrop-filter: invert(100%)">
+<img class='top z' src=virus-free.png height=200px style="right: 40px; top: 80px;">
+<img class='top z' src=bombs.png height=210px style="left: 49vw; bottom: 10px">
+
+<img class='top z' id=wow src=wow.png height=200px style="left: 0px; top: 0px;">
+<div class='top z'>
+You're ad here
+</div>
+<div id=buttons></div>
+</body>
+<script>
+
+    let buttons = ["buttons/download10 2.png","buttons/download10.jpg","buttons/download12.png","buttons/download13.jpg","buttons/download14.png","buttons/download15.png","buttons/download16.jpg","buttons/download1.png","buttons/download2.png","buttons/download3.png","buttons/download4.png","buttons/download5.jpg","buttons/download6.jpg","buttons/download7.jpg","buttons/download8.png","buttons/download9.png"]
+
+    let bte = document.querySelector('#buttons');
+    for (let i = 0; i < 100; i++) {
+        bte.insertAdjacentHTML('afterbegin', `
+            <a style="top: ${Math.random() * 120 - 10}vh; left: ${Math.random() * 120 - 10}vw; animation-duration: ${Math.random() + .4}s;" href=javascript:void()>
+                <img class=download src="${buttons[Math.floor(buttons.length * Math.random())]}">
+            </a>
+        `);
+    }
+
+    let children = document.querySelector('#buttons').children;
+    setInterval(_ => {
+        let child = children.item(Math.floor(children.length * Math.random()));
+        child.style.zIndex++;
+        child.style.zIndex++;
+    }, 50);
+
+    let wow = document.querySelector('#wow');
+    setInterval(_ => {
+        wow.style.top = `${Math.random() * 90}vh`;
+        wow.style.left = `${Math.random() * 90}vw`
+    }, 1000)
+</script>
+</html>
