@@ -91,6 +91,12 @@
             align-items: center;
             font-size: 40pt;
         }
+        .hid {
+            display: none;
+        }
+        .topmore {
+            z-index: 9999999999;
+        }
     </style>
 </head>
 <body>
@@ -110,6 +116,7 @@
 You're ad here
 </div>
 <div id=buttons></div>
+<img class="topmore z hid" id="smiley" src="smiley.gif" style="width:100%; height: 100%; right: 0px; top: 0px;">
 </body>
 <script>
 
@@ -136,5 +143,15 @@ You're ad here
         wow.style.top = `${Math.random() * 90}vh`;
         wow.style.left = `${Math.random() * 90}vw`
     }, 1000)
+
+    let smiley = document.querySelector("#smiley");
+    setInterval(_ => {
+        if (Math.random() > 0.74) {
+            smiley.classList.remove('hid');
+            setTimeout(_ => {
+                smiley.classList.add('hid');
+            }, 1000);
+        }
+    }, 3147)
 </script>
 </html>
