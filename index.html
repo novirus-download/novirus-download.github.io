@@ -50,7 +50,7 @@
             width: 300px;
             aspect-ratio: 2.7;
         }
-        img#wow {
+        img.wow {
             transition: top 1s, left 1s;
             z-index: 9999999999;
         }
@@ -110,8 +110,8 @@
 <img class='top z' src=click-here.png height=260px style="right: 60px; bottom: 60px; backdrop-filter: invert(100%)">
 <img class='top z' src=virus-free.png height=200px style="right: 40px; top: 80px;">
 <img class='top z' src=bombs.png height=210px style="left: 49vw; bottom: 10px">
-
-<img class='top z' id=wow src=wow.png height=200px style="left: 0px; top: 0px;">
+<img class="top z wow" src="duck-flipper.gif" height="150px" style="left: 49vw; top: 49vw;">
+<img class='top z wow' src=wow.png height=200px style="left: 0px; top: 0px;">
 <div class='top z'>
 You're ad here
 </div>
@@ -138,10 +138,12 @@ You're ad here
         child.style.zIndex++;
     }, 50);
 
-    let wow = document.querySelector('#wow');
+    let wow = document.querySelectorAll('.wow');
     setInterval(_ => {
-        wow.style.top = `${Math.random() * 90}vh`;
-        wow.style.left = `${Math.random() * 90}vw`
+        for (i of wow) {
+            i.style.top = `${Math.random() * 90}vh`;
+            i.style.left = `${Math.random() * 90}vw`;
+        }
     }, 1000)
 
     let smiley = document.querySelector("#smiley");
