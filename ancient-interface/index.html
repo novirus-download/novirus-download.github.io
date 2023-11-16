@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ancient Interface</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            background-color: rgb(179, 131, 108);
+        }
+        #buttonzone {
+            margin: auto;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #shapes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            margin: 50px;
+        }
+        input:read-only {
+            width: 40px;
+            margin: auto;
+            display: block;
+        }
+    </style>
+    <script>
+        const $ = q=>document.querySelector(q);
+        const $$ = q=>document.querySelectorAll(q);
+
+        function newShape(color, type) {
+            return {color: color, type: type}
+        }
+
+        function svgOf(shape) {
+            if (shape.type == "square") {
+                return `<rect x="17" y="17" width="66" height="66" fill="${shape.color}"></rect>`
+            } else if (shape.type == "rhombus") {
+                return `<polygon points="50 0, 75 50, 50 100, 25 50" fill="${shape.color}"></polygon>`
+            } else {
+                console.error(`Invalid shape type: ${shape.type} in shape: ${shape}`);
+                return null;
+            }
+        }
+
+        function stringOfShape(shape) {
+            return `${shape.color} ${shape.type}`;
+        }
+
+        let shapes = [
+            newShape("purple", "square"),
+            newShape("gold", "rhombus"),
+            newShape("green", "square"),
+        ];
+
+        let clicked = [];
+
+        let secretSequence = JSON.stringify([
+            newShape("gold", "rhombus"),
+            newShape("green", "square"),
+            newShape("green", "square"),
+            newShape("green", "square"),
+            newShape("green", "square"),
+            newShape("green", "square"),
+            newShape("green", "square"),
+            newShape("purple", "square"),
+            newShape("green", "square"),
+            newShape("green", "square")
+        ]);
+
+        function generateShapes() {
+            let i = 0;
+            for (let shape of shapes) {
+                i++;
+                if (!$(`#btn${i}`)) {
+                    $("#shapes").insertAdjacentHTML('beforeend', `<span class=btn id="btn${i}">\
+                        <svg width="200px" height="200px" viewbox="0 0 100 100" onclick="click(${i})">\
+                        </svg> <br>\
+                        <input type="text" readonly value="">\
+                        </span>\
+                    `);
+                }
+                $(`#btn${i} svg`).innerHTML = svgOf(shape);
+            }
+        }
+        
+        function resetCounts() {
+            $$("input:read-only").forEach(e => e.value = "");
+            clicked = [];
+        }
+
+        window.onload = function() {
+            resetCounts();
+            generateShapes();
+        }
+
+        function click(n) {
+            let input = $(`#btn${n} input`);
+            clicked.push(shapes[n-1]);
+            if (clicked.length > 10) {
+                shapes[n-1].color = 'red';
+                generateShapes();
+                resetCounts();
+            } else {
+                input.value = +input.value+1;
+            }
+        }
+
+        function b_reset() {
+            resetCounts();
+            if (shapes.length > 3) {
+                for (let i = 4; i <= shapes.length; i++) {
+                    $(`#btn${i}`).remove();
+                }
+            }
+            shapes = [
+                newShape("purple", "square"),
+                newShape("gold", "rhombus"),
+                newShape("green", "square"),
+            ];
+            generateShapes();
+        }
+
+        function ok() {
+            if (JSON.stringify(clicked) == secretSequence) {
+                window.location = "https://youtu.be/vu8sVuuzo04?si=AYQ-YqCwevOsESXt&t=112";
+            }
+            let purple = clicked.filter(s => s.color == "purple").length;
+            let green = clicked.filter(s => s.color == "green").length;
+            let gold = clicked.filter(s => s.color == "gold").length;
+            let blue = clicked.filter(s => s.color == "blue").length;
+            let red = clicked.filter(s => s.color == "red").length;
+            let squares = clicked.filter(s => s.type == "square").length;
+
+            if (clicked.length < 10) {
+                shapes[shapes.length - 1] = shapes.splice(0, 1, shapes[shapes.length - 1])[0];
+                generateShapes();
+            } else {
+                if (purple > red && purple > green && purple < gold) shapes.push(newShape('blue', 'rhombus'));
+                else if (red > purple + gold && red < green) shapes.push(newShape('blue', clicked[6].type));
+                else if (red == purple + gold && red < green) shapes.push(newShape(clicked[2].color, 'square'));
+                else if (squares % 3 == 2 && red - gold == green - blue) shapes.push(newShape(clicked[8].color, clicked[5].type));
+                else if (clicked[4].type == 'rhombus' && blue < red && blue % 5 == 3) clicked[7].color = clicked[6].color;
+                else shapes[Math.floor(Math.random() * shapes.length)].color = 'black';
+            }
+
+
+            generateShapes();
+            resetCounts();
+        }
+    </script>
+</head>
+<body>
+    <div id="buttonzone">
+    <h1>Ancient Interface</h1>
+        <div id="shapes">
+            <span class=btn id="btn1">
+                <svg width="200px" height="200px" viewbox="0 0 100 100" onclick="click(1)">
+                    <rect x="17" y="17" width="66" height="66" fill="purple"></rect>
+                </svg> <br>
+                <input type="text" readonly value="">
+            </span>
+            <span class=btn id="btn2">
+                <svg width="200px" height="200px" viewbox="0 0 100 100" onclick="click(2)">
+                    <polygon points="50 0, 75 50, 50 100, 25 50" fill="gold"></polygon>
+                </svg> <br>
+                <input type="text" readonly value="">
+            </span>
+            <span class=btn id="btn3">
+                <svg width="200px" height="200px" viewbox="0 0 100 100" onclick="click(3)">
+                    <rect x="17" y="17" width="66" height="66" fill="green"></rect>
+                </svg> <br>
+                <input type="text" readonly value="">
+            </span>
+        </div>
+        <span>
+            <button onclick="ok();">Ok</button>
+            <button onclick="b_reset();">Reset</button>
+        </span>
+    </div>
+</body>
+</html>
